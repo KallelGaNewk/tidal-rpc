@@ -42,7 +42,7 @@ This command builds the application as a GUI and disables the console window.
 This application relies on the following dependencies:
 
 - [github.com/getlantern/systray](https://github.com/getlantern/systray): A cross-platform Go library for placing an icon and menu in the notification area.
-- [github.com/hugolgst/rich-go/client](https://github.com/hugolgst/rich-go/client): A Go library for Discord Rich Presence integration.
+- [github.com/hugolgst/rich-go](https://github.com/hugolgst/rich-go): A Go library for Discord Rich Presence integration.
 
 ## Contributing
 

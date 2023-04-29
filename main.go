@@ -45,6 +45,7 @@ func onReady() {
 
 	iconBytes := getIconBytes()
 	systray.SetIcon(iconBytes)
+	systray.SetTooltip("TIDAL RPC for Discord")
 	titleMenu := systray.AddMenuItem("TIDAL Rich Presence for Discord", "Click to open the website")
 	rpcToggle := systray.AddMenuItemCheckbox("Enable RPC", "RPC", RPCEnabled)
 	titleMenu.SetIcon(iconBytes)

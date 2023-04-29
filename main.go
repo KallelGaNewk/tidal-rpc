@@ -91,7 +91,9 @@ func onReady() {
 		for {
 			select {
 			case <-titleMenu.ClickedCh:
-				err := exec.Command("cmd", "/c", "start", "https://github.com/KallelGaNewk/tidal-rpc").Start()
+				cmd := exec.Command("cmd", "/c", "start", "https://github.com/KallelGaNewk/tidal-rpc")
+				cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
+				err := cmd.Start()
 				if err != nil {
 					panic(err)
 				}

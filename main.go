@@ -1,8 +1,3 @@
-// Build using:
-// > go build -o TIDAL-RPC.exe -ldflags -H=windowsgui
-// to build the app as GUI, and disable
-// the console.
-
 package main
 
 import (

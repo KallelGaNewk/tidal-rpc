@@ -12,6 +12,7 @@ import (
 
 	"github.com/getlantern/systray"
 	"github.com/hugolgst/rich-go/client"
+	"golang.design/x/clipboard"
 )
 
 const (
@@ -25,11 +26,17 @@ type Song struct {
 }
 
 func main() {
+	err := clipboard.Init()
+	if err != nil {
+		panic(err)
+	}
+
 	systray.Run(onReady, onExit)
 }
 
 func onReady() {
 	var RPCEnabled = true
+	var lastSong Song
 
 	err := client.Login(ClientID)
 	if err != nil {
@@ -38,7 +45,7 @@ func onReady() {
 
 	iconBytes := getIconBytes()
 	systray.SetIcon(iconBytes)
-	titleMenu := systray.AddMenuItem("TIDAL Rich Presence for Discord", "TIDAL")
+	titleMenu := systray.AddMenuItem("TIDAL Rich Presence for Discord", "Click to open the website")
 	rpcToggle := systray.AddMenuItemCheckbox("Enable RPC", "RPC", RPCEnabled)
 	titleMenu.SetIcon(iconBytes)
 	systray.AddSeparator()
@@ -53,6 +60,7 @@ func onReady() {
 			song := formatSongName(tidalWindowName)
 
 			if song != nil {
+				lastSong = *song
 				songMenu.Show()
 				artistMenu.SetTitle(fmt.Sprintf("Artist: %s", song.Artist))
 				songMenu.SetTitle(fmt.Sprintf("Song name: %s", song.Name))
@@ -81,6 +89,12 @@ func onReady() {
 	go func() {
 		for {
 			select {
+			case <-titleMenu.ClickedCh:
+				err := exec.Command("cmd", "/c", "start", "https://github.com/KallelGaNewk/tidal-rpc").Start()
+				if err != nil {
+					panic(err)
+				}
+
 			case <-rpcToggle.ClickedCh:
 				if rpcToggle.Checked() {
 					rpcToggle.Uncheck()
@@ -94,6 +108,17 @@ func onReady() {
 				}
 
 				RPCEnabled = rpcToggle.Checked()
+
+			case <-artistMenu.ClickedCh:
+				if RPCEnabled {
+					clipboard.Write(clipboard.FmtText, []byte(lastSong.Artist))
+				}
+
+			case <-songMenu.ClickedCh:
+				if RPCEnabled {
+					clipboard.Write(clipboard.FmtText, []byte(lastSong.Name))
+				}
+
 			case <-quitItem.ClickedCh:
 				systray.Quit()
 				return

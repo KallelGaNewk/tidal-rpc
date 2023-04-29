@@ -1,8 +1,10 @@
-# TIDAL Rich Presence for Discord
+# <img src="icon.ico" alt="image" width="24" height="24"> TIDAL Rich Presence for Discord
 
 This application provides TIDAL Rich Presence integration for Discord, allowing you to display your currently playing TIDAL song as your Discord status. It uses the TIDAL desktop client's window title to retrieve the currently playing song information and updates your Discord status accordingly.
 
 <small>Consider this as a humble project, as I'm still learning the language.</small>
+
+![](image.png)
 
 ## Usage
 
